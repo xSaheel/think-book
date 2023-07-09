@@ -1,0 +1,13 @@
+{
+    "data": {
+      "user": 
+        {   
+          "user_id": "jdshjkhds",
+          "name": "Saheel Das",
+          "profile_picture": "",
+          "is_verified": true,
+          "email": "abc@test.com",
+          "password": "abcabc"
+        }
+    }
+  }

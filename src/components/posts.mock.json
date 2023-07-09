@@ -1,0 +1,66 @@
+{
+    "data": {
+      "posts": [
+        {   
+          "id": 1,
+          "text": "Almost don't even care if this place gets burnt to the ground, after they suspended one of my accounts for no reason and won't even answer my appeal email.",
+          "likes": 0,
+          "reply_count": 0,
+          "time_posted": "2023-06-20T20:30:00.000Z",
+          "user": {
+            "name": "Saheel Das",
+            "profile_picture": "",
+            "is_verified": true
+          }
+        },
+        {
+          "id": 2,
+          "text": "skd jskljd kl;js;l kdl;skla dklkadl; kl;sk l;akdl;s kl;skl; sa",
+          "likes": 0,
+          "reply_count": 0,
+          "time_posted": "2023-06-20T20:30:00.000Z",
+          "user": {
+            "name": "Shipra Das",
+            "profile_picture": "",
+            "is_verified": false
+          }
+        },
+        {
+          "id": 3,
+          "text": "sad ;lkasld klskl dklask ldlkasl; dklaklskdl kl;ak ",
+          "likes": 0,
+          "reply_count": 0,
+          "time_posted": "2023-06-20T20:30:00.000Z",
+          "user": {
+            "name": "Yatin Jain",
+            "profile_picture": "",
+            "is_verified": false
+          }
+        },
+        {
+          "id": 4,
+          "text": "sad ;lkasld klskl dklask ldlkasl; dklaklskdl kl;ak ",
+          "likes": 0,
+          "reply_count": 0,
+          "time_posted": "2023-06-20T20:30:00.000Z",
+          "user": {
+            "name": "Yatin Jain",
+            "profile_picture": "",
+            "is_verified": false
+          }
+        },
+        {
+          "id": 5,
+          "text": "sad ;lkasld klskl dklask ldlkasl; dklaklskdl kl;ak ",
+          "likes": 0,
+          "reply_count": 0,
+          "time_posted": "2023-06-20T20:30:00.000Z",
+          "user": {
+            "name": "Yatin Jain",
+            "profile_picture": "",
+            "is_verified": false
+          }
+        }
+      ]
+    }
+  }
