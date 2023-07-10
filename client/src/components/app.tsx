@@ -3,15 +3,26 @@ import HomeIcon from "../../public/home.svg";
 import CreateIcon from "../../public/create.svg";
 import UserIcon from "../../public/user.svg";
 import { useRouter } from "next/router";
-import { ReactNode } from "react";
+import { ReactNode, useContext } from "react";
+import { AuthContext } from "@/context/auth.context";
 
 const App = ({ children }: { children: ReactNode }) => {
   const { push } = useRouter();
+  const { user } = useContext(AuthContext);
   const handleHomeClick = () => {
     push("/");
   };
   const handleProfileClick = () => {
-    push("/profile");
+    if (user) {
+      push("/profile");
+    } else {
+      push("/auth");
+    }
+  };
+  const handleCreatePost = () => {
+    if (!user) {
+      push("/auth");
+    }
   };
   return (
     <div className="h-screen relative max-w-xl m-auto">
@@ -26,14 +37,23 @@ const App = ({ children }: { children: ReactNode }) => {
           height={30}
           width={30}
           onClick={handleHomeClick}
+          className="cursor-pointer"
         />
-        <Image src={CreateIcon} alt="home" height={30} width={30} />
+        <Image
+          src={CreateIcon}
+          alt="home"
+          height={30}
+          width={30}
+          onClick={handleCreatePost}
+          className="cursor-pointer"
+        />
         <Image
           src={UserIcon}
           alt="home"
           height={30}
           width={30}
           onClick={handleProfileClick}
+          className="cursor-pointer"
         />
       </div>
     </div>

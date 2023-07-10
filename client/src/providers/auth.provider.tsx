@@ -7,15 +7,11 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => console.log("logged out");
   const register = () => console.log("registered");
 
-  const defaultState = {
-    user,
-    login,
-    logout,
-    register,
-  };
-  const [auth, setAuth] = useState(defaultState);
-
-  return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, login, logout, register }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;
