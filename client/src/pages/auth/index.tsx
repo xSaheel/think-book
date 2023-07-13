@@ -5,14 +5,13 @@ import React, { useContext, useEffect, useState } from "react";
 
 const Auth = () => {
   const { user } = useContext(AuthContext);
-  console.log("user: ", user);
   const { push } = useRouter();
   const [tabIndex, setTabIndex] = useState(0);
-  useEffect(() => {
-    if (user) {
-      push("/");
-    }
-  }, [user, push]);
+  // useEffect(() => {
+  //   if (user) {
+  //     push("/");
+  //   }
+  // }, [user, push]);
   return (
     <App>
       <div className="flex items-center relative top-10 w-4/5 m-auto">
@@ -48,11 +47,19 @@ const Auth = () => {
 };
 
 const Login = () => {
-  const { login } = useContext(AuthContext);
+  const { login, user, setUserData } = useContext(AuthContext);
+
+  const handleChange = (e: any) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    setUserData(name, value);
+  };
+
   const handleLogin = (e: any) => {
     e.preventDefault();
     login();
   };
+
   return (
     <form
       onSubmit={handleLogin}
@@ -60,12 +67,18 @@ const Login = () => {
     >
       <input
         type="email"
+        name="email"
         placeholder="email"
+        value={user?.email}
+        onChange={handleChange}
         className="border-gray-200 border px-3 py-2 rounded-md w-full"
       />
       <input
         type="password"
+        name="password"
         placeholder="password"
+        value={user?.password}
+        onChange={handleChange}
         className="border-gray-200 border px-3 py-2 rounded-md w-full"
       />
       <button
@@ -79,11 +92,19 @@ const Login = () => {
 };
 
 const Register = () => {
-  const { register } = useContext(AuthContext);
+  const { register, user, setUserData } = useContext(AuthContext);
+
+  const handleChange = (e: any) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    setUserData(name, value);
+  };
+
   const handleRegister = (e: any) => {
     e.preventDefault();
     register();
   };
+
   return (
     <form
       onSubmit={handleRegister}
@@ -91,22 +112,34 @@ const Register = () => {
     >
       <input
         type="text"
+        name="first_name"
         placeholder="first name"
+        value={user?.first_name}
+        onChange={handleChange}
         className="border-gray-200 border px-3 py-2 rounded-md w-full"
       />
       <input
         type="text"
+        name="last_name"
         placeholder="last name"
+        value={user?.last_name}
+        onChange={handleChange}
         className="border-gray-200 border px-3 py-2 rounded-md w-full"
       />
       <input
         type="email"
+        name="email"
         placeholder="email"
+        value={user?.email}
+        onChange={handleChange}
         className="border-gray-200 border px-3 py-2 rounded-md w-full"
       />
       <input
         type="password"
+        name="password"
         placeholder="password"
+        value={user?.password}
+        onChange={handleChange}
         className="border-gray-200 border px-3 py-2 rounded-md w-full"
       />
       <button

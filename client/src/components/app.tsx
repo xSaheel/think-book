@@ -30,7 +30,7 @@ const App = ({ children }: { children: ReactNode }) => {
         ThinkBook
       </header>
       {children}
-      <div className="flex items-center justify-around p-5 sticky bottom-0 w-full bg-white shadow-lg">
+      <div className="flex items-center justify-around p-5 sticky bottom-0 w-full bg-white shadow-inner">
         <Image
           src={HomeIcon}
           alt="home"
