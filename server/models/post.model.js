@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
+const { UserSchema } = require("../models/user.model");
 const { Schema, model } = mongoose;
 
 const PostSchema = new Schema({
-    id: String,
-    media: {
-        type: String, default: ""
-    },
     text: {
         type: String, required: true, default: ""
+    },
+    media: {
+        type: String, default: ""
     },
     likes: { 
         type: Number, default: 0
@@ -17,7 +17,8 @@ const PostSchema = new Schema({
     },
     time_posted: { 
         type: Date, default: Date.now
-    }
+    },
+    user: UserSchema
 })
 
 module.exports = model("Post", PostSchema);

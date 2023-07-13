@@ -1,4 +1,5 @@
 const Post = require("../models/post.model");
+const { User } = require("../models/user.model");
 
 exports.getAllPostsController = async (req, res) => {
     try {
@@ -18,8 +19,8 @@ exports.getAllPostsController = async (req, res) => {
 
 exports.getPostByIdController = async (req, res) => {
     try {
-        const { id } = req.params;
-        const post = await Post.findById(id)
+        const { postId } = req.params;
+        const post = await Post.findById(postId);
         return res.status(200).json({
             success: true,
             data: post
@@ -34,9 +35,9 @@ exports.getPostByIdController = async (req, res) => {
 
 exports.postPublishPostController = async (req, res) => {
     try {
-        const post = await Post.create(req.body);
-        // const post = new Post(req.body);
-        // await post.save();
+        const { userId } = req.user;
+        const user = await User.findById(userId);
+        const post = await Post.create({ ...req.body, user });
         return res.status(201).json({
             success: true,
             data: post
@@ -44,7 +45,7 @@ exports.postPublishPostController = async (req, res) => {
     } catch (err) {
         return res.status(500).json({
             success: false,
-            error: req.body
+            error: err
         })
     }
 }
