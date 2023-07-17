@@ -47,12 +47,12 @@ const Auth = () => {
 };
 
 const Login = () => {
-  const { login, user, setUserData } = useContext(AuthContext);
+  const { login, user, updateUserData } = useContext(AuthContext);
 
   const handleChange = (e: any) => {
     e.preventDefault();
     const { name, value } = e.target;
-    setUserData(name, value);
+    updateUserData(name, value);
   };
 
   const handleLogin = (e: any) => {
@@ -92,12 +92,12 @@ const Login = () => {
 };
 
 const Register = () => {
-  const { register, user, setUserData } = useContext(AuthContext);
+  const { register, user, updateUserData } = useContext(AuthContext);
 
   const handleChange = (e: any) => {
     e.preventDefault();
     const { name, value } = e.target;
-    setUserData(name, value);
+    updateUserData(name, value);
   };
 
   const handleRegister = (e: any) => {

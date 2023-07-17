@@ -1,23 +1,19 @@
-import { data } from "@/components/posts.mock.json";
 import Post from "@/components/post";
-import App from "@/components/app";
-import { useContext } from "react";
-import { AuthContext } from "@/context/auth.context";
 import CreatePost from "@/components/create-post";
+import { useContext } from "react";
+import { PostContext } from "@/context/post.context";
 
 const LandingPage = () => {
-  const { user } = useContext(AuthContext);
-  console.log("user: ", user);
-  const { posts } = data;
+  const { posts } = useContext(PostContext);
   return (
-    <App>
+    <>
       <CreatePost />
       <div className="bg-slate-100">
-        {posts.map((post) => (
+        {posts.map((post: any) => (
           <Post key={post.id} {...post} />
         ))}
       </div>
-    </App>
+    </>
   );
 };
 

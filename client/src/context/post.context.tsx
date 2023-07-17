@@ -3,7 +3,7 @@ import { createContext } from "react";
 import { IUser } from "./auth.context";
 
 export interface IPost {
-  post: Post | null;
+  posts: Post[];
   createPost: (content: IContent) => void;
 }
 
@@ -17,15 +17,9 @@ export interface Post {
   media?: string;
 }
 
-export const PostContext = createContext<IPost>({
-  post: {
-    id: 0,
-    text: "",
-    likes: 0,
-    reply_count: 0,
-    time_posted: "",
-    media: "",
-    user: null,
-  },
+const initialState: IPost = {
+  posts: [],
   createPost: (content) => void 0,
-});
+};
+
+export const PostContext = createContext<IPost>(initialState);

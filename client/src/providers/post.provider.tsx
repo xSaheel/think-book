@@ -1,16 +1,27 @@
 import { IContent } from "@/components/create-post";
-import { IPost, Post, PostContext } from "@/context/post.context";
-import React, { ReactNode, useState } from "react";
+import { Post, PostContext } from "@/context/post.context";
+import { getAllPosts, publishPost } from "@/modules/posts/api";
+import React, { ReactNode, useEffect, useState } from "react";
 
 const PostProvider = ({ children }: { children: ReactNode }) => {
-  const [newPost, setNewPost] = useState<Post | null>(null);
-  const createPost = (content: IContent) => {
-    // setNewPost({ ...newPost, post: { ...post, text, media } });
-    console.log("post: ", content);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const createPost = async (content: IContent) => {
+    const accessToken = window && localStorage.getItem("accessToken");
+    const { data: newPost } = await publishPost(content, accessToken as string);
+    setPosts([newPost, ...posts]);
   };
 
+  const fetchPosts = async () => {
+    const { data: allPosts } = await getAllPosts();
+    setPosts(allPosts);
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
   return (
-    <PostContext.Provider value={{ post: newPost, createPost }}>
+    <PostContext.Provider value={{ posts, createPost }}>
       {children}
     </PostContext.Provider>
   );

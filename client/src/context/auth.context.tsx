@@ -23,15 +23,17 @@ interface IAuth {
   login: () => void;
   logout: () => void;
   register: () => void;
-  setUserData: (name: string, value: string) => void;
+  updateUserData: (name: string, value: string) => void;
   loading: boolean;
 }
 
-export const AuthContext = createContext<IAuth>({
+const initialState: IAuth = {
   user: null,
   login: () => void 0,
   logout: () => void 0,
   register: () => void 0,
-  setUserData: (name, value) => void 0,
+  updateUserData: (name, value) => void 0,
   loading: false,
-});
+};
+
+export const AuthContext = createContext<IAuth>(initialState);

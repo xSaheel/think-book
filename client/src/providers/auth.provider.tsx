@@ -20,7 +20,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   }, []);
 
-  const setUserData = (name: string, value: string) => {
+  const updateUserData = (name: string, value: string) => {
     setUser(
       (prevUser) =>
         ({
@@ -62,7 +62,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, login, logout, register, setUserData, loading }}
+      value={{ user, login, logout, register, updateUserData, loading }}
     >
       {children}
     </AuthContext.Provider>

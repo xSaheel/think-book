@@ -18,7 +18,7 @@ const UserSchema = new Schema({
         type: String, default: ""
     },
     is_verified: {
-        type: Number, default: false
+        type: Boolean, default: false
     }
 })
 

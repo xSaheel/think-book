@@ -8,13 +8,14 @@ import { getDateDifference, getFormattedDate } from "@/modules/utils";
 
 const Post = ({ text, user, likes, reply_count, time_posted }: any) => {
   const timePostedDate = getDateDifference(new Date(time_posted));
+  const { first_name, last_name, profile_picture, is_verified } = user;
   return (
     <div className="px-3 py-5 border-b border-x-blue-300">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Image src={AvatarIcon} alt="home" height={35} width={35} />
-          <span className="text-lg font-medium">{user.name}</span>
-          {user.is_verified && (
+          <span className="text-lg font-medium">{`${first_name} ${last_name}`}</span>
+          {is_verified && (
             <Image src={VerifiedIcon} alt="home" height={20} width={20} />
           )}
         </div>

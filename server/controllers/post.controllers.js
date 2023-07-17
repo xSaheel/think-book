@@ -3,7 +3,7 @@ const { User } = require("../models/user.model");
 
 exports.getAllPostsController = async (req, res) => {
     try {
-        const posts = await Post.find()
+        const posts = await Post.find().sort({ time_posted: -1 })
         return res.status(200).json({
             success: true,
             count: posts.length,
