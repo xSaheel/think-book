@@ -6,7 +6,7 @@ import CommentIcon from "../../../public/comment.svg";
 import VerifiedIcon from "../../../public/verified.svg";
 import { getDateDifference, getFormattedDate } from "@/modules/utils";
 
-const Post = ({ text, user, likes, reply_count, time_posted }: any) => {
+const Post = ({ text, user, likes, reply_count, time_posted, media }: any) => {
   const timePostedDate = getDateDifference(new Date(time_posted));
   const { first_name, last_name, profile_picture, is_verified } = user;
   return (
@@ -25,6 +25,16 @@ const Post = ({ text, user, likes, reply_count, time_posted }: any) => {
       </div>
       <div className="pl-11 flex flex-col gap-2 pt-1">
         <p>{text}</p>
+        {media && (
+          <div className="h-[250px] w-full rounded-lg relative px-5 my-2">
+            <Image
+              src={media}
+              alt="media"
+              layout="fill"
+              className="object-cover relative rounded-lg"
+            />
+          </div>
+        )}
         <div className="flex items-center gap-2">
           <Image src={HeartIcon} alt="home" height={25} width={25} />
           <Image src={CommentIcon} alt="home" height={25} width={25} />

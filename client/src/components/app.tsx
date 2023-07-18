@@ -26,7 +26,7 @@ const App = ({ children }: { children: ReactNode }) => {
   };
   return (
     <div className="h-screen relative max-w-xl m-auto">
-      <header className="px-0 py-8 text-center text-xl sticky top-0 bg-white shadow-sm">
+      <header className="px-0 py-8 text-center text-xl sticky top-0 bg-white shadow-sm z-10">
         ThinkBook
       </header>
       {children}

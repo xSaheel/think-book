@@ -9,27 +9,55 @@ export interface IContent {
   media?: string;
 }
 
+const initialValue = {
+  text: "",
+  media: "",
+};
+
 const CreatePost = () => {
   const { createPost } = useContext(PostContext);
-  const [content, setContent] = useState<IContent>({
-    text: "",
-    media: "",
-  });
+  const [content, setContent] = useState<IContent>(initialValue);
   const handleSendClick = () => {
     createPost(content);
+    setContent(initialValue);
   };
+
+  const handleMediaUpload = (event: any) => {
+    const mediaUrl = URL.createObjectURL(event.target.files[0]);
+    setContent({ ...content, media: mediaUrl });
+  };
+
   return (
-    <div className="w-full">
+    <div className="w-full relative">
       <textarea
         placeholder="What's on your mind?"
         id="new-post"
         name="new-post"
         rows={4}
         className="box-border w-full focus:outline-none p-5 resize-none"
+        value={content.text}
         onChange={(e) => setContent({ ...content, text: e.target.value })}
       />
+      {content.media && (
+        <div className="h-[250px] w-4/5 rounded-lg relative px-5 mx-auto my-2">
+          <Image
+            src={content.media}
+            alt="media"
+            layout="fill"
+            className="object-cover relative rounded-lg"
+          />
+        </div>
+      )}
       <div className="flex justify-between items-center px-5 py-3">
-        <Image src={AttachIcon} alt="home" height={20} width={20} />
+        <input
+          type="file"
+          id="media-attach"
+          onChange={handleMediaUpload}
+          className="hidden"
+        />
+        <label htmlFor="media-attach">
+          <Image src={AttachIcon} alt="home" height={20} width={20} />
+        </label>
         <Image
           src={SendIcon}
           alt="home"
