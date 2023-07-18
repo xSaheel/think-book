@@ -25,6 +25,7 @@ interface IAuth {
   register: () => void;
   updateUserData: (name: string, value: string) => void;
   loading: boolean;
+  error: string | null;
 }
 
 const initialState: IAuth = {
@@ -34,6 +35,7 @@ const initialState: IAuth = {
   register: () => void 0,
   updateUserData: (name, value) => void 0,
   loading: false,
+  error: null,
 };
 
 export const AuthContext = createContext<IAuth>(initialState);

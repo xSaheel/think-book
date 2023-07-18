@@ -12,7 +12,7 @@ exports.getAllPostsController = async (req, res) => {
     } catch (err) {
         return res.status(500).json({
             success: false,
-            error: 'Server Error'
+            message: 'Server Error'
         })
     }
 }
@@ -28,7 +28,7 @@ exports.getPostByIdController = async (req, res) => {
     } catch (err) {
         return res.status(500).json({
             success: false,
-            error: 'Server Error'
+            message: 'Server Error'
         })
     }
 }
@@ -45,7 +45,7 @@ exports.postPublishPostController = async (req, res) => {
     } catch (err) {
         return res.status(500).json({
             success: false,
-            error: err
+            message: 'Server Error'
         })
     }
 }

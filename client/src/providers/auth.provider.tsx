@@ -6,6 +6,7 @@ import React, { ReactNode, useEffect, useState } from "react";
 const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<IUser | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const { push } = useRouter();
 
   useEffect(() => {
@@ -19,6 +20,18 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       handleGetUserData();
     }
   }, []);
+
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+    if (error) {
+      timer = setTimeout(() => {
+        setError(null);
+      }, 5000);
+    }
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [error]);
 
   const updateUserData = (name: string, value: string) => {
     setUser(
@@ -41,8 +54,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
       };
       handleGetUserData();
       push("/");
+    } else {
+      setError(data?.message);
     }
-    setUser(null);
   };
 
   const logout = () => {
@@ -54,15 +68,16 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const register = async () => {
     const data = await registerUser(user);
-    if (data) {
+    if (data.success === true) {
       alert(data?.message);
+    } else {
+      setError(data?.message);
     }
-    setUser(null);
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, login, logout, register, updateUserData, loading }}
+      value={{ user, login, logout, register, updateUserData, loading, error }}
     >
       {children}
     </AuthContext.Provider>

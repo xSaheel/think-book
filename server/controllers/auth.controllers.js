@@ -13,7 +13,7 @@ exports.getUserDataController = async (req, res) => {
     } catch (err) {
         return res.status(500).json({
             success: false,
-            error: 'Server Error'
+            message: 'Server Error'
         })
     }
 };
@@ -50,7 +50,7 @@ exports.postLoginController = async (req, res) => {
     } catch (err) {
         return res.status(500).json({
             success: false,
-            error: 'Server Error'
+            message: 'Server Error'
         })
     }
 };
@@ -63,7 +63,7 @@ exports.postRegisterController = async (req, res) => {
         if(isExistingUser) {
             return res.status(400).json({
                 success: false,
-                error: "User already exists"
+                message: "User already exists"
             })
         }
         const saltRounds = 10;
@@ -79,7 +79,7 @@ exports.postRegisterController = async (req, res) => {
     } catch (err) {
         return res.status(500).json({
             success: false,
-            error: 'Server Error'
+            message: 'Server Error'
         })
     }
 };
