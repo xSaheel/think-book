@@ -1,4 +1,4 @@
-const BASE_URL = `${process.env.NODE_ENV}/auth`;
+const BASE_URL = `${process.env.BASE_URL}/auth`;
 
 export const getUserData = async (accessToken: string) => {
     try {
