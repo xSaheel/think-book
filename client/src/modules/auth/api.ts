@@ -1,4 +1,4 @@
-const BASE_URL = "http://localhost:9000/api/v1/auth"
+const BASE_URL = `${process.env.NODE_ENV}/auth`;
 
 export const getUserData = async (accessToken: string) => {
     try {
