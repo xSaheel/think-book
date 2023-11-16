@@ -12,8 +12,14 @@ connectDB();
 
 const app = express();
 
+const corsOptions = { 
+    origin: [process.env.PROD_BASE_URL],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+};
+
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use("/api/v1/posts", postRoutes);
 app.use("/api/v1/auth", authRoutes);
