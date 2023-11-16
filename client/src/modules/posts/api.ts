@@ -1,6 +1,6 @@
 import { IContent } from "@/components/create-post";
 
-const BASE_URL = `${process.env.BASE_URL}/v1/posts`;
+const BASE_URL = `${process.env.BASE_URL}/posts`;
 
 export const getAllPosts = async () => {
     try {
