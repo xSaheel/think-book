@@ -7,7 +7,7 @@ import { AuthContext } from "@/context/auth.context";
 import { useRouter } from "next/router";
 
 export interface IContent {
-  text: string;
+  text?: string;
   media?: string;
 }
 
@@ -55,6 +55,8 @@ const CreatePost = () => {
     }
   };
 
+  const isDisabled = !content.media && !content.text;
+
   return (
     <div className="w-full relative">
       <textarea
@@ -93,6 +95,7 @@ const CreatePost = () => {
           height={25}
           width={25}
           onClick={handleSendClick}
+          className={`${isDisabled && "opacity-10 pointer-events-none"}`}
         />
       </div>
     </div>
