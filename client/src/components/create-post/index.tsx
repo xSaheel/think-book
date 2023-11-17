@@ -3,6 +3,8 @@ import Image from "next/image";
 import AttachIcon from "../../../public/attach.svg";
 import SendIcon from "../../../public/send.svg";
 import { PostContext } from "@/context/post.context";
+import { AuthContext } from "@/context/auth.context";
+import { useRouter } from "next/router";
 
 export interface IContent {
   text: string;
@@ -16,6 +18,8 @@ const initialValue = {
 
 const CreatePost = () => {
   const { createPost } = useContext(PostContext);
+  const { user } = useContext(AuthContext);
+  const { push } = useRouter();
   const [content, setContent] = useState<IContent>(initialValue);
   const handleSendClick = () => {
     createPost(content);
@@ -25,6 +29,12 @@ const CreatePost = () => {
   const handleMediaUpload = (event: any) => {
     const mediaUrl = URL.createObjectURL(event.target.files[0]);
     setContent({ ...content, media: mediaUrl });
+  };
+
+  const handleOnFocus = () => {
+    if (!user) {
+      push("/auth");
+    }
   };
 
   return (
@@ -37,6 +47,7 @@ const CreatePost = () => {
         className="box-border w-full focus:outline-none p-5 resize-none"
         value={content.text}
         onChange={(e) => setContent({ ...content, text: e.target.value })}
+        onFocus={handleOnFocus}
       />
       {content.media && (
         <div className="h-[250px] w-4/5 rounded-lg relative px-5 mx-auto my-2">
