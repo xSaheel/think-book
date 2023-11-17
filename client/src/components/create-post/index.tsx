@@ -26,9 +26,27 @@ const CreatePost = () => {
     setContent(initialValue);
   };
 
-  const handleMediaUpload = (event: any) => {
-    const mediaUrl = URL.createObjectURL(event.target.files[0]);
-    setContent({ ...content, media: mediaUrl });
+  const handleMediaUpload = async (event: any) => {
+    const file = event.target.files[0];
+    const base64MediaUrl = await convertFileToBase64(file);
+    setContent({ ...content, media: base64MediaUrl });
+  };
+
+  const convertFileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      if (!file || !file.type.startsWith("image/")) {
+        reject(new Error("Invalid file type. Please provide an image file."));
+        return;
+      }
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        resolve(fileReader.result as string);
+      };
+      fileReader.onerror = () => {
+        reject(new Error("Error reading the file."));
+      };
+      fileReader.readAsDataURL(file);
+    });
   };
 
   const handleOnFocus = () => {
@@ -62,11 +80,11 @@ const CreatePost = () => {
       <div className="flex justify-between items-center px-5 py-3">
         <input
           type="file"
-          id="media-attach"
+          id="media"
           onChange={handleMediaUpload}
           className="hidden"
         />
-        <label htmlFor="media-attach">
+        <label htmlFor="media">
           <Image src={AttachIcon} alt="home" height={20} width={20} />
         </label>
         <Image
