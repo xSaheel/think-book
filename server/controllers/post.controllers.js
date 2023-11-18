@@ -49,3 +49,40 @@ exports.postPublishPostController = async (req, res) => {
         })
     }
 }
+
+exports.postLikePostController = async (req, res) => {
+    try {
+        const { userId } = req.user;
+        const { postId } = req.body;
+        if(!postId) {
+            return res.status(400).json({
+                success: false,
+                message: "PostId is required"
+            })
+        }
+        const post = await Post.findById(postId);
+        if(!post) {
+            return res.status(400).json({
+                success: false,
+                message: "Post not found"
+            })
+        }
+        const { likes = [] } = post;
+        const alreadyLiked = likes.includes(userId);
+        const updatedLikes = alreadyLiked ? likes.filter((uid) => uid !== userId) : [...likes, userId]
+        const updatedPost = await Post.findOneAndUpdate({ _id: postId }, { 
+            likes: updatedLikes
+        }, { new: true });
+
+        return res.status(200).json({
+            success: true,
+            message: alreadyLiked ? "Post Unliked" : "Post liked",
+            data: updatedPost
+        })
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: 'Server Error'
+        })
+    }
+}

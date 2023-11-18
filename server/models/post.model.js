@@ -9,9 +9,9 @@ const PostSchema = new Schema({
     media: {
         type: String, default: ""
     },
-    likes: { 
-        type: Number, default: 0
-    },
+    likes: [{ 
+        type: String, default: ""
+    }],
     reply_count: { 
         type: Number, default: 0
     },
