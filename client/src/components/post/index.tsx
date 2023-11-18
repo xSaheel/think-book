@@ -1,14 +1,29 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import Image from "next/image";
 import AvatarIcon from "../../../public/avatar.svg";
 import HeartIcon from "../../../public/heart.svg";
+import FilledHeart from "../../../public/filled-heart.svg";
 import CommentIcon from "../../../public/comment.svg";
 import VerifiedIcon from "../../../public/verified.svg";
 import { getDateDifference, getFormattedDate } from "@/modules/utils";
+import { PostContext } from "@/context/post.context";
 
-const Post = ({ text, user, likes, reply_count, time_posted, media }: any) => {
+const Post = ({
+  text,
+  user,
+  likes = [],
+  reply_count,
+  time_posted,
+  media,
+  _id: postId,
+}: any) => {
+  const isLiked = likes.includes(user._id);
   const timePostedDate = getDateDifference(new Date(time_posted));
   const { first_name, last_name, profile_picture, is_verified } = user;
+  const { handleLikePost } = useContext(PostContext);
+
+  const handleCommentClick = () => {};
+
   return (
     <div className="px-3 py-5 border-b border-x-blue-300">
       <div className="flex items-center justify-between">
@@ -36,11 +51,23 @@ const Post = ({ text, user, likes, reply_count, time_posted, media }: any) => {
           </div>
         )}
         <div className="flex items-center gap-2">
-          <Image src={HeartIcon} alt="home" height={25} width={25} />
-          <Image src={CommentIcon} alt="home" height={25} width={25} />
+          <Image
+            src={isLiked ? FilledHeart : HeartIcon}
+            alt="like"
+            height={25}
+            width={25}
+            onClick={() => handleLikePost(postId)}
+          />
+          <Image
+            src={CommentIcon}
+            alt="comment"
+            height={25}
+            width={25}
+            onClick={handleCommentClick}
+          />
         </div>
         <div className="flex items-center">
-          <span className="text-neutral-400">{`${reply_count} replies • ${likes} likes`}</span>
+          <span className="text-neutral-400">{`${reply_count} replies • ${likes.length} likes`}</span>
         </div>
       </div>
     </div>

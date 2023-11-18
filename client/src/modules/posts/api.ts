@@ -35,3 +35,19 @@ export const publishPost = async (post: IContent, accessToken: string) => {
         console.log('err: ', err);
     }
 }
+
+export const likePost = async (postId: string, accessToken: string) => {
+    try {
+        const data = await fetch(`${BASE_URL}/like`, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${accessToken}`
+            },
+            body: JSON.stringify({ postId })
+        });
+        return data.json();
+    } catch (err) {
+        console.log('err: ', err);
+    }
+}
