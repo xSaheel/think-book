@@ -1,23 +1,25 @@
-import { AuthContext, IUser } from "@/context/auth.context";
+import { AuthContext, ICredentials, User } from "@/context/auth.context";
 import { getUserData, loginUser, registerUser } from "@/modules/auth/api";
 import { useRouter } from "next/router";
 import React, { ReactNode, useEffect, useState } from "react";
 
 const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<IUser | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [credentials, setCredentials] = useState<ICredentials | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { push } = useRouter();
 
+  const handleGetUserData = async (accessToken: string) => {
+    const { data } = await getUserData(accessToken);
+    setUser(data);
+  };
+
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
     if (accessToken) {
-      const handleGetUserData = async () => {
-        const { data } = await getUserData(accessToken);
-        setUser(data);
-        setLoading(false);
-      };
-      handleGetUserData();
+      handleGetUserData(accessToken);
+      setLoading(false);
     }
   }, []);
 
@@ -34,29 +36,26 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, [error]);
 
   const updateUserData = (name: string, value: string) => {
-    setUser(
+    setCredentials(
       (prevUser) =>
         ({
           ...prevUser,
           [name]: value,
-        } as IUser)
+        } as ICredentials)
     );
   };
 
   const login = async () => {
-    const data = await loginUser(user);
+    const data = await loginUser(credentials);
     if (data?.accessToken) {
       localStorage.setItem("accessToken", data?.accessToken);
       alert(data?.message);
-      const handleGetUserData = async () => {
-        const res = await getUserData(data?.accessToken);
-        setUser(res.data);
-      };
-      handleGetUserData();
+      handleGetUserData(data?.accessToken as string);
       push("/");
     } else {
       setError(data?.message);
     }
+    setCredentials(null);
   };
 
   const logout = () => {
@@ -67,12 +66,13 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const register = async () => {
-    const data = await registerUser(user);
+    const data = await registerUser(credentials);
     if (data.success === true) {
       alert(data?.message);
     } else {
       setError(data?.message);
     }
+    setCredentials(null);
   };
 
   return (

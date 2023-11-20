@@ -11,7 +11,7 @@ export interface User {
   __v: number;
 }
 
-export type IUser = {
+export type ICredentials = {
   first_name?: string;
   last_name?: string;
   email: string;
@@ -19,7 +19,7 @@ export type IUser = {
 };
 
 interface IAuth {
-  user: IUser | null;
+  user: User | null;
   login: () => void;
   logout: () => void;
   register: () => void;

@@ -1,19 +1,10 @@
 import App from "@/components/app";
-import { AuthContext } from "@/context/auth.context";
 import Login from "@/modules/auth/login";
 import Register from "@/modules/auth/register";
-import { useRouter } from "next/router";
-import React, { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 
 const Auth = () => {
-  const { user } = useContext(AuthContext);
-  const { push } = useRouter();
   const [tabIndex, setTabIndex] = useState(0);
-  // useEffect(() => {
-  //   if (user) {
-  //     push("/");
-  //   }
-  // }, [user, push]);
   return (
     <App>
       <div className="flex items-center relative top-10 w-4/5 m-auto">

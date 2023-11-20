@@ -10,7 +10,9 @@ const Profile = () => {
   const { push } = useRouter();
 
   useEffect(() => {
-    if (!user && !loading) {
+    const accessToken =
+      typeof window !== "undefined" && localStorage.getItem("accessToken");
+    if (!accessToken) {
       push("/auth");
     }
   }, [user, push, loading]);
