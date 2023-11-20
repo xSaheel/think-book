@@ -6,7 +6,7 @@ import { AuthContext } from "@/context/auth.context";
 import { useRouter } from "next/router";
 import { convertFileToBase64 } from "@/modules/utils";
 import { publishPost } from "@/modules/posts/api";
-import { Post } from "@/modules/landing-page";
+import { IPost } from "@/modules/posts/interface";
 
 export interface IContent {
   text?: string;
@@ -14,7 +14,7 @@ export interface IContent {
 }
 
 export interface ICreatePost {
-  updatePosts: (post: Post) => void;
+  updatePosts: (post: IPost) => void;
 }
 
 const initialValue = {

@@ -5,18 +5,23 @@ import { getPostById, getRepliesByPostId } from "@/modules/posts/api";
 import Post from "@/components/post";
 import Reply from "@/components/post/reply";
 import CreateReply from "@/components/create-reply";
+import { IPost, IReply } from "@/modules/posts/interface";
 
-const PostPage = ({ post, replies = [] }: { post: any; replies: any }) => {
-  const [allReplies, setAllReplies] = useState<any[]>(replies);
+export interface IPostPage {
+  post: IPost;
+  repliesData: IReply[];
+}
 
-  const updateAllReplies = async (newReply: any) => {
-    setAllReplies([newReply, ...allReplies]);
+const PostPage = ({ post, repliesData = [] }: IPostPage) => {
+  const [replies, setReplies] = useState<IReply[]>(repliesData);
+  const updateAllReplies = async (newReply: IReply) => {
+    setReplies([newReply, ...replies]);
   };
 
   return (
     <App>
       <Post {...post} />
-      {allReplies.map((reply: any) => (
+      {replies.map((reply: IReply) => (
         <Reply key={reply._id} {...reply} />
       ))}
       <CreateReply updateAllReplies={updateAllReplies} />
@@ -28,15 +33,23 @@ const PostPage = ({ post, replies = [] }: { post: any; replies: any }) => {
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
-  const { postId } = context.query;
-  const { data: post = {} } = await getPostById(postId as string);
-  const { data: replies = [] } = await getRepliesByPostId(postId as string);
-  return {
-    props: {
-      post,
-      replies,
-    },
-  };
+  try {
+    const { postId } = context.query;
+    const { data: post = {} } = await getPostById(postId as string);
+    const { data: repliesData = [] } = await getRepliesByPostId(
+      postId as string
+    );
+    return {
+      props: {
+        post,
+        repliesData,
+      },
+    };
+  } catch (err) {
+    return {
+      notFound: true,
+    };
+  }
 };
 
 export default PostPage;

@@ -1,42 +1,20 @@
 import Post from "@/components/post";
 import CreatePost from "@/components/create-post";
-import { useEffect, useState } from "react";
-import { getAllPosts } from "../posts/api";
-import { ICredentials } from "@/context/auth.context";
+import { useState } from "react";
+import { IPost } from "../posts/interface";
 
-export interface Post {
-  _id: string;
-  id: number;
-  text: string;
-  likes: string[];
-  reply_count: number;
-  time_posted: string;
-  user: ICredentials | null;
-  media?: string;
-}
-
-const LandingPage = () => {
-  const [posts, setPosts] = useState<Post[]>([]);
-
-  const updatePosts = (newPost: Post) => {
+const LandingPage = ({ postsData = [] }: { postsData: IPost[] }) => {
+  const [posts, setPosts] = useState<IPost[]>(postsData);
+  const updatePosts = (newPost: IPost) => {
     setPosts([newPost, ...posts]);
   };
-
-  const fetchPosts = async () => {
-    const { data: allPosts } = await getAllPosts();
-    setPosts(allPosts);
-  };
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
 
   return (
     <>
       <CreatePost updatePosts={updatePosts} />
       <div className="bg-slate-100">
-        {posts.map((post: any) => (
-          <Post key={post.id} {...post} />
+        {posts.map((post: IPost) => (
+          <Post key={post._id} {...post} />
         ))}
       </div>
     </>

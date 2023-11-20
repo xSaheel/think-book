@@ -5,6 +5,7 @@ import { AuthContext } from "@/context/auth.context";
 import { useRouter } from "next/router";
 import { IContent } from "../create-post";
 import { publishReply } from "@/modules/posts/api";
+import { IReply } from "@/modules/posts/interface";
 
 const initialValue = {
   text: "",
@@ -12,7 +13,7 @@ const initialValue = {
 };
 
 export interface ICreateReply {
-  updateAllReplies: (newReply: any) => void;
+  updateAllReplies: (newReply: IReply) => void;
 }
 
 const CreateReply = ({ updateAllReplies }: ICreateReply) => {

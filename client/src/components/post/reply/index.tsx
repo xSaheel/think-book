@@ -2,8 +2,9 @@ import Image from "next/image";
 import AvatarIcon from "../../../../public/avatar.svg";
 import VerifiedIcon from "../../../../public/verified.svg";
 import { getDateDifference, getFormattedDate } from "@/modules/utils";
+import { IReply } from "@/modules/posts/interface";
 
-const Reply = ({ text, user, time_posted, media }: any) => {
+const Reply = ({ text, user, time_posted, media }: IReply) => {
   const timePostedDate = getDateDifference(new Date(time_posted));
   const { first_name, last_name, is_verified } = user;
 

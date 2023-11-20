@@ -9,6 +9,7 @@ import { getDateDifference, getFormattedDate } from "@/modules/utils";
 import { useRouter } from "next/router";
 import { AuthContext } from "@/context/auth.context";
 import { likePost } from "@/modules/posts/api";
+import { IPost } from "@/modules/posts/interface";
 
 const Post = ({
   text,
@@ -18,7 +19,7 @@ const Post = ({
   media,
   replies,
   _id: postId,
-}: any) => {
+}: IPost) => {
   const { user: currentUser } = useContext(AuthContext);
   const [isLiked, setIsLiked] = useState<boolean>(false);
   const [likesCount, setLikesCount] = useState<number>(likes.length);
