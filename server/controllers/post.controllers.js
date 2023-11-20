@@ -77,7 +77,7 @@ exports.postPublishPostController = async (req, res) => {
 exports.postLikePostController = async (req, res) => {
     try {
         const { userId } = req.user;
-        const { postId } = req.body;
+        const { postId } = req.params;
         if(!postId) {
             return res.status(400).json({
                 success: false,
