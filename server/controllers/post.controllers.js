@@ -1,4 +1,5 @@
 const Post = require("../models/post.model");
+const Reply = require("../models/reply.model");
 const { User } = require("../models/user.model");
 
 exports.getAllPostsController = async (req, res) => {
@@ -24,6 +25,29 @@ exports.getPostByIdController = async (req, res) => {
         return res.status(200).json({
             success: true,
             data: post
+        })
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: 'Server Error'
+        })
+    }
+}
+
+exports.deletePostByIdController = async (req, res) => {
+    try {
+        const { postId } = req.params;
+        const post = await Post.findByIdAndDelete(postId);
+
+        if (!post) {
+            return res.status(404).json({ 
+                success: false, 
+                message: 'Post not found' 
+            });
+        }
+        return res.status(200).json({
+            success: true,
+            message: "Post deleted successfully"
         })
     } catch (err) {
         return res.status(500).json({
@@ -85,4 +109,45 @@ exports.postLikePostController = async (req, res) => {
             message: 'Server Error'
         })
     }
+}
+
+exports.postReplyPostController = async (req, res) => {
+    try {
+        const { userId } = req.user;
+        const { postId } = req.params;
+        const user = await User.findById(userId);
+        const parentPost = await Post.findById(postId);
+        const reply = await Reply.create({ ...req.body, user: user._id });
+
+        parentPost.replies.push(reply);
+        await parentPost.save();
+        await reply.populate("user");
+
+        return res.status(201).json({
+            success: true,
+            data: reply
+        })
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: 'Server Error'
+        })
+    } 
+}
+
+exports.getAllRepliesController = async (req, res) => {
+    try {
+        const { postId } = req.params;
+        const post = await Post.findById(postId).populate("replies");
+        await post.populate("replies.user");
+        return res.status(201).json({
+            success: true,
+            data: post.replies
+        })
+    } catch (err) {
+        return res.status(500).json({
+            success: false,
+            message: 'Server Error'
+        })
+    } 
 }

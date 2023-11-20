@@ -15,6 +15,10 @@ const PostSchema = new Schema({
     reply_count: { 
         type: Number, default: 0
     },
+    replies: [{ 
+        type: Schema.Types.ObjectId, 
+        ref: 'Reply' 
+    }],
     time_posted: { 
         type: Date, default: Date.now
     },
