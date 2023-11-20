@@ -28,3 +28,20 @@ export const getFormattedDate = (date: IDay) => {
     else if(days <= 0) return `${hours}h`;
     return `${days}d`;
 }
+
+export const convertFileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      if (!file || !file.type.startsWith("image/")) {
+        reject(new Error("Invalid file type. Please provide an image file."));
+        return;
+      }
+      const fileReader = new FileReader();
+      fileReader.onload = () => {
+        resolve(fileReader.result as string);
+      };
+      fileReader.onerror = () => {
+        reject(new Error("Error reading the file."));
+      };
+      fileReader.readAsDataURL(file);
+    });
+  };

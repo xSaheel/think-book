@@ -2,13 +2,19 @@ import React, { useContext, useState } from "react";
 import Image from "next/image";
 import AttachIcon from "../../../public/attach.svg";
 import SendIcon from "../../../public/send.svg";
-import { PostContext } from "@/context/post.context";
 import { AuthContext } from "@/context/auth.context";
 import { useRouter } from "next/router";
+import { convertFileToBase64 } from "@/modules/utils";
+import { publishPost } from "@/modules/posts/api";
+import { Post } from "@/modules/landing-page";
 
 export interface IContent {
   text?: string;
   media?: string;
+}
+
+export interface ICreatePost {
+  updatePosts: (post: Post) => void;
 }
 
 const initialValue = {
@@ -16,11 +22,23 @@ const initialValue = {
   media: "",
 };
 
-const CreatePost = () => {
-  const { createPost } = useContext(PostContext);
+const CreatePost = ({ updatePosts }: ICreatePost) => {
   const { user } = useContext(AuthContext);
   const { push } = useRouter();
   const [content, setContent] = useState<IContent>(initialValue);
+
+  const createPost = async (content: IContent) => {
+    const accessToken =
+      typeof window !== "undefined" && localStorage.getItem("accessToken");
+    if (!accessToken) {
+      push("/auth");
+      return;
+    }
+
+    const { data: newPost } = await publishPost(content, accessToken as string);
+    updatePosts(newPost);
+  };
+
   const handleSendClick = () => {
     createPost(content);
     setContent(initialValue);
@@ -30,23 +48,6 @@ const CreatePost = () => {
     const file = event.target.files[0];
     const base64MediaUrl = await convertFileToBase64(file);
     setContent({ ...content, media: base64MediaUrl });
-  };
-
-  const convertFileToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      if (!file || !file.type.startsWith("image/")) {
-        reject(new Error("Invalid file type. Please provide an image file."));
-        return;
-      }
-      const fileReader = new FileReader();
-      fileReader.onload = () => {
-        resolve(fileReader.result as string);
-      };
-      fileReader.onerror = () => {
-        reject(new Error("Error reading the file."));
-      };
-      fileReader.readAsDataURL(file);
-    });
   };
 
   const handleOnFocus = () => {
